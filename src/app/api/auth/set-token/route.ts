@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { token } = await req.json();
+console.log("token from set token",token);
 
   if (!token)
     return NextResponse.json({ error: "Token not found" }, { status: 400 });
