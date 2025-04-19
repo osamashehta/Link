@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 
   if (!token)
     return NextResponse.json({ error: "Token not found" }, { status: 400 });
-  // @ts-ignore
+  // @ts-expect-error: TypeScript does not recognize the dynamic cookies API
   cookies().set({
     name: "token",
     value: token,
