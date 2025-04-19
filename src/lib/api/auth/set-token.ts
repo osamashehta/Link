@@ -6,6 +6,7 @@ export async function POST(req: Request) {
 
   if (!token)
     return NextResponse.json({ error: "Token not found" }, { status: 400 });
+  // @ts-ignore
   cookies().set({
     name: "token",
     value: token,
