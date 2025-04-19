@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,6 +22,17 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useSignUp } from "@/lib/mutations/userMutations";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@radix-ui/react-popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 const SignUpPage = () => {
   const formSchema = z
     .object({
@@ -39,7 +51,9 @@ const SignUpPage = () => {
           }
         ),
       rePassword: z.string(),
-      dateOfBirth: z.date(),
+      dateOfBirth: z.string({
+        required_error: "A date of birth is required.",
+      }),
       gender: z.enum(["male", "female"]),
     })
     .refine((value) => value.password === value.rePassword, {
@@ -55,30 +69,34 @@ const SignUpPage = () => {
       email: "",
       password: "",
       rePassword: "",
-      dateOfBirth: new Date(),
+      dateOfBirth: "",
       gender: "male",
     },
   });
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
+    mutate({ ...values, dateOfBirth: new Date(values.dateOfBirth) });
   }
-  const { mutate } = useSignUp();
+  const { mutate, isPending } = useSignUp();
 
-
-
-
-
-
-
-
-
+  useEffect(() => {
+    if (isPending) {
+      toast.loading("Loading...", {
+        toastId: "loading",
+        autoClose: false,
+      });
+    } else {
+      toast.dismiss("loading");
+    }
+  }, [isPending]);
 
   return (
     <>
       <div className="flex min-h-screen  items-center justify-center Container">
         <div className="max-w-[400px] w-full mx-auto ">
-          <p className="text-[18px] text-center my-4">Make the most of your professional life</p>
+          <p className="text-[18px] text-center my-4">
+            Make the most of your professional life
+          </p>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
@@ -167,6 +185,23 @@ const SignUpPage = () => {
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="dateOfBirth"
+                render={({}) => (
+                  <FormItem>
+                    <FormLabel>Date of birth</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Date of birth"
+                        {...form.register("dateOfBirth")}
+                        type="date"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit">Submit</Button>
             </form>
           </Form>

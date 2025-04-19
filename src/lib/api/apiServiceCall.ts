@@ -11,21 +11,20 @@ const apiServiceCall = async ({
   body,
   headers,
 }: ApiServiceCallProps) => {
-  const user = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user") || "{}") : null;
   
-const defaultHeaders:Record<string, string> = {
-    "Content-Type": "application/json",
-    ...headers,
-  };
-  if(user){
-    defaultHeaders["Authorization"] = `Bearer ${user?.accessToken}`;
-  }
+  
+  
+
+  
   try {
     const response = await axios({
       url: `${process.env.NEXT_PUBLIC_API_URL}${endPoint}`,
       method: method || "GET",
-      data: body || {},
-      headers:defaultHeaders,
+      data: body,
+      headers:{
+        "Content-Type": "application/json",
+        ...headers,
+      },
     });
     return {
       status: response?.status,

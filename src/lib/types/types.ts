@@ -6,3 +6,7 @@ export type SignUpData = {
     dateOfBirth: Date;
     gender: "male" | "female";
 }
+export type LoginData = {
+    email: string;
+    password: string;
+}
