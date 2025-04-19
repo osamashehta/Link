@@ -3,7 +3,6 @@ import apiServiceCall from "../api/apiServiceCall";
 import { toast } from "react-toastify";
 import { LoginData, SignUpData } from "../types/types";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/stores/user-store";
 const signUp = async (data: SignUpData) => {
   return apiServiceCall({
     endPoint: "users/signup",
