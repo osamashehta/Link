@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${robotoMono.variable} ${geistMono.variable}`}>
+      <body className={`${robotoMono.variable} ${geistMono.variable} bg-[#F4F2EE]`}>
         <Navbar user={profileData?.data?.user}/>
         <Providers>
           {children}
