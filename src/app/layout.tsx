@@ -29,7 +29,6 @@ export default async function RootLayout({
 }>) {
   
   const profileData = await fetchUserProfile();
-  console.log("data layout profile", profileData?.data?.user);
 
   return (
     <html lang="en">

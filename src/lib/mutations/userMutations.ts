@@ -22,7 +22,6 @@ export const useSignUp = () => {
     },
     onError: (error: { data?: { error?: string } }) => {
       toast.error(error?.data?.error);
-      console.log(error);
     },
   });
 };
@@ -41,8 +40,7 @@ export const useLogin = () => {
     mutationFn: (data: LoginData) => logIn(data),
     onSuccess: async (data) => {
       toast.success(data?.data?.message);
-      console.log("data login", data);
-      console.log("data?.data?.token login", data?.data?.token);
+      
 
       await fetch("/api/auth/set-token", {
         method: "POST",
@@ -55,7 +53,6 @@ export const useLogin = () => {
     },
     onError: (error: { data?: { error?: string } }) => {
       toast.error(error?.data?.error);
-      console.log("error login", error.data);
     },
   });
 };

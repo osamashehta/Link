@@ -7,7 +7,6 @@ type props = {
   _id: string;
 };
 const Navbar = ({ user }: { user: props }) => {
-  console.log("userrrrrrr", user);
 
   return (
     <>
