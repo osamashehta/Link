@@ -13,7 +13,7 @@ const Navbar = ({ user }: { user: props }) => {
       <div className="flex justify-between  item-center px-4 py-2   bg-white shadow-md shadow-slate-100/[0.8]">
         <Link
           href="/"
-          className="bg-blue-600 text-white text-[16px] font-bold p-2 rounded-[8px] flex items-center h-fit"
+          className="bg-blue-600 text-white text-[16px] font-bold p-2 rounded-[8px] flex items-center "
         >
           Link
         </Link>
