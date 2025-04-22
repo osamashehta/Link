@@ -98,7 +98,7 @@ const LoginPage = () => {
           href="/signup"
           className=" my-3 text-slate-950 font-medium text-[18px] flex items-center justify-center gap-1"
         >
-          <p>Don't have an account?</p>{" "}
+          <p>{"Don't have an account?"}</p>{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={24}
