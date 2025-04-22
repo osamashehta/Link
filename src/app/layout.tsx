@@ -3,10 +3,6 @@ import { Geist_Mono, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers/Providers";
 import { ToastContainer } from "react-toastify";
-import Navbar from "@/components/Navbar/Navbar";
-import { fetchUserProfile } from "@/lib/serverActions/serverActions";
-
-
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -27,13 +23,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
-  const profileData = await fetchUserProfile();
-
   return (
     <html lang="en">
-      <body className={`${robotoMono.variable} ${geistMono.variable} bg-[#F4F2EE]`}>
-        <Navbar user={profileData?.data?.user}/>
+      <body
+        className={`${robotoMono.variable} ${geistMono.variable} bg-[#F4F2EE]`}
+      >
         <Providers>
           {children}
           <ToastContainer position="top-right" />

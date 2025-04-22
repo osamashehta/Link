@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { useSignUp } from "@/lib/mutations/userMutations";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const SignUpPage = () => {
   const formSchema = z
@@ -83,13 +84,16 @@ const SignUpPage = () => {
 
   return (
     <>
-      <div className="flex min-h-screen  items-center justify-center Container">
+      <div className="flex h-screen  items-center justify-center Container">
         <div className="max-w-[400px] w-full mx-auto ">
-          <p className="text-[18px] text-center my-4">
+          <p className="text-[18px] text-center my-2">
             Make the most of your professional life
           </p>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-[10px]"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -196,6 +200,23 @@ const SignUpPage = () => {
               <Button type="submit">Submit</Button>
             </form>
           </Form>
+          <Link
+            href="/login"
+            className=" my-3 text-slate-950 font-medium text-[18px] flex items-center justify-center gap-1"
+          >
+            <p>Already have an account</p>{" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="#0F172B"
+                d="M13 5.499a.996.996 0 0 0-1 1v2.559c-4.5.498-8 4.309-8 8.941v1c2.245-3.423 5.25-3.92 8-3.989v2.489a.999.999 0 0 0 1.707.707L20 11.999l-6.293-6.208A1 1 0 0 0 13 5.499"
+              ></path>
+            </svg>
+          </Link>
         </div>
       </div>
     </>

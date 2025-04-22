@@ -7,7 +7,6 @@ type props = {
   _id: string;
 };
 const Navbar = ({ user }: { user: props }) => {
-
   return (
     <>
       <div className="flex justify-between  item-center px-4 py-2   bg-white shadow-md shadow-slate-100/[0.8]">

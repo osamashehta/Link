@@ -15,7 +15,8 @@ const HomePage = ({ token }: { token: string }) => {
         apiServiceCall({
           endPoint: `posts?page=${pageParam}&limit=10`,
           headers: {
-            token: token,
+            "Content-Type": "application/json",
+            token: token, 
           },
         }).then((response) => ({
           ...response.data,
