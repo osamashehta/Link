@@ -17,14 +17,14 @@ export type Post = {
   body: string;
   createdAt: string;
   user: User;
-  comment: comments[];
+  comments: TComments[];
 };
 export type User = {
   _id: string;
   name: string;
   photo: string;
 };
-export type comments = {
+export type TComments = {
   _id: string;
   content: string;
   post: string;
