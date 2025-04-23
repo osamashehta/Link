@@ -1,29 +1,48 @@
 "use client";
 import apiServiceCall from "@/lib/api/apiServiceCall";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Post } from "@/lib/types/types";
 import PostCard from "@/components/PostCard/PostCard";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
 const HomePage = ({ token }: { token: string }) => {
   const { ref, inView } = useInView();
+  const [totalPage, setTotalPage] = useState<number | null>(null);
+  const { data: pagination } = useQuery({
+    queryKey: ["pagination"],
+    queryFn: () =>
+      apiServiceCall({
+        endPoint: `posts?page=1&limit=10`,
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+      }),
+  });
+  useEffect(() => {
+    if (pagination) {
+      setTotalPage(pagination?.data?.paginationInfo?.numberOfPages);
+      console.log("totalPage", totalPage);
+    }
+  }, [pagination, totalPage]);
   const { data, isLoading, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["data"],
-      queryFn: ({ pageParam = 1 }) =>
+      queryKey: ["allPosts"],
+      initialPageParam: totalPage,
+
+      queryFn: ({ pageParam }) =>
         apiServiceCall({
           endPoint: `posts?page=${pageParam}&limit=10`,
           headers: {
             "Content-Type": "application/json",
-            token: token, 
+            token: token,
           },
         }).then((response) => ({
           ...response.data,
         })),
-      initialPageParam: 1,
       getNextPageParam: (lastPage) => {
-        return lastPage.paginationInfo?.nextPage ?? undefined;
+        return lastPage.paginationInfo?.prevPage ?? undefined;
       },
     });
 
