@@ -6,7 +6,6 @@ import { Post } from "@/lib/types/types";
 import PostCard from "@/components/PostCard/PostCard";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
-import Comments from "@/components/Comments/Comments";
 const HomePage = ({ token }: { token: string }) => {
   const { ref, inView } = useInView();
   const [totalPage, setTotalPage] = useState<number | null>(null);
