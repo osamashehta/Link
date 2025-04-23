@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const HomePage = ({ token }: { token: string }) => {
   const { ref, inView } = useInView();
   const [totalPage, setTotalPage] = useState<number | null>(null);
-  const { data: pagination } = useQuery({
+  const { data: pagination, isLoading: paginationLoading } = useQuery({
     queryKey: ["pagination"],
     queryFn: () =>
       apiServiceCall({
@@ -26,9 +26,11 @@ const HomePage = ({ token }: { token: string }) => {
       console.log("totalPage", totalPage);
     }
   }, [pagination, totalPage]);
+
   const { data, isLoading, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["allPosts"],
+      queryKey: ["feedPosts"],
+      enabled: totalPage !== null,
       initialPageParam: totalPage,
 
       queryFn: ({ pageParam }) =>
@@ -57,7 +59,7 @@ const HomePage = ({ token }: { token: string }) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto my-4">
-        {isLoading &&
+        {isLoading || paginationLoading &&
           [...Array(6)].map((_, index) => (
             <div
               key={index}
