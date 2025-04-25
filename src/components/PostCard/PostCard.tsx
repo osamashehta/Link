@@ -2,7 +2,7 @@ import { useTimeAgo } from "@/hooks/useTimeAgo";
 import { Post } from "@/lib/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { ForwardedRef } from "react";
+import { ForwardedRef, useState } from "react";
 import Comments from "../Comments/Comments";
 
 const PostCard = ({
@@ -13,6 +13,7 @@ const PostCard = ({
   ref: ForwardedRef<HTMLDivElement>;
 }) => {
   const createdAtAgo = useTimeAgo(post.createdAt);
+  const [showComments, setShowComments] = useState(false);
 
   return (
     <>
@@ -31,11 +32,40 @@ const PostCard = ({
         </div>
         <p className="text-start font-light px-4">{post?.body}</p>
 
+        <div
+          onClick={() => setShowComments(!showComments)}
+          className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24px"
+            height="24px"
+            viewBox="0 0 28 28"
+          >
+            <path
+              fill="808080"
+              d="M5.75 4.5A2.25 2.25 0 0 0 3.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25H8.5v4.796c0 .203.23.322.396.202l6.928-4.998h6.426a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25zM2 6.75A3.75 3.75 0 0 1 5.75 3h16.5A3.75 3.75 0 0 1 26 6.75v10.5A3.75 3.75 0 0 1 22.25 21h-5.941l-6.535 4.715C8.616 26.55 7 25.723 7 24.295V21H5.75A3.75 3.75 0 0 1 2 17.25z"
+            />
+          </svg>
 
-        {post.comments.slice(0, 1).map((comment) => (
-          <Comments key={comment._id} comments={comment} />
-        ))}
-
+          {showComments && (
+            <>
+              <div className="w-full flex flex-col items-start justify-start gap-2 mt-3">
+                {post.comments.length > 0 ? (
+                  <>
+                    {post.comments.map((comment) => (
+                      <Comments key={comment._id} comments={comment} />
+                    ))}
+                  </>
+                ) : (
+                  <div className="w-full flex justify-center items-center text-gray-500 mb-1">
+                    No comments yet
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
       <div ref={ref}></div>
     </>

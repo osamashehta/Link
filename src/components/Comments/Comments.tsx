@@ -5,11 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Comments = ({ comments }: { comments: TComments }) => {
   const createdAtAgo = useTimeAgo(comments?.createdAt);
-
+  console.log("comments from comments", comments);
   return (
-    <div className="w-full border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 ">
-      <div className="flex items-center justify-between w-full ">
-        <div className="flex justify-start items-center gap-1">
+    <div className="w-full   py-1  border-t border-t-gray-300  bg-gray-100 ">
+      <div className="flex items-center justify-between w-full text-sm text-gray-500">
+        <div className="flex justify-start items-center gap-1 ">
           <Avatar>
             <AvatarImage
               src={comments?.commentCreator?.photo}
@@ -23,6 +23,9 @@ const Comments = ({ comments }: { comments: TComments }) => {
         </div>
         <p>{createdAtAgo}</p>
       </div>
+      <p className=" w-full text-md text-gray-500 ps-10 pt-2">
+        {comments?.content}
+      </p>
     </div>
   );
 };
