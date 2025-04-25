@@ -2,6 +2,7 @@ import { TComments } from "@/lib/types/types";
 import React from "react";
 import { useTimeAgo } from "@/hooks/useTimeAgo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import AddComment from "./AddComment";
 
 const Comments = ({ comments }: { comments: TComments }) => {
   const createdAtAgo = useTimeAgo(comments?.createdAt);

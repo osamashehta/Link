@@ -4,13 +4,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { ForwardedRef, useState } from "react";
 import Comments from "../Comments/Comments";
+import AddComment from "../Comments/AddComment";
 
 const PostCard = ({
   post,
   ref,
+  token
 }: {
   post: Post;
   ref: ForwardedRef<HTMLDivElement>;
+  token: string;
 }) => {
   const createdAtAgo = useTimeAgo(post.createdAt);
   const [showComments, setShowComments] = useState(false);
@@ -33,7 +36,7 @@ const PostCard = ({
         <p className="text-start font-light px-4">{post?.body}</p>
 
         <div
-          onClick={() => setShowComments(!showComments)}
+          
           className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 "
         >
           <svg
@@ -41,6 +44,7 @@ const PostCard = ({
             width="24px"
             height="24px"
             viewBox="0 0 28 28"
+            onClick={() => setShowComments(!showComments)}
           >
             <path
               fill="808080"
@@ -56,11 +60,12 @@ const PostCard = ({
                     {post.comments.map((comment) => (
                       <Comments key={comment._id} comments={comment} />
                     ))}
+                    <AddComment token={token} post={post._id} />
+
                   </>
                 ) : (
-                  <div className="w-full flex justify-center items-center text-gray-500 mb-1">
-                    No comments yet
-                  </div>
+                  <AddComment token={token} post={post._id} />
+
                 )}
               </div>
             </>

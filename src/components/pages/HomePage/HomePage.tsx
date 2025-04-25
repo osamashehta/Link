@@ -76,7 +76,7 @@ const HomePage = ({ token }: { token: string }) => {
         {data?.pages?.map((page) =>
           page.posts.map((post: Post) => (
             <>
-              <PostCard key={post._id} post={post} ref={ref} />
+              <PostCard token={token} key={post._id} post={post} ref={ref} />
             </>
           ))
         )}
