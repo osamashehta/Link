@@ -40,9 +40,11 @@ const PostCard = ({
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#808080" fill-rule="evenodd" d="M2.25 12a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0M5 10.75a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5M9.25 12a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0M12 10.75a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m7-1.5a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5M17.75 12a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0" clip-rule="evenodd"/></svg>
         </div>
         <p className="text-start font-light px-4">{post?.body}</p>
-        <div className="relative w-full h-[220px] ">
-          <Image fill className="object-cover" src={post?.image} alt={post?.user?.name} />
-        </div>
+        {post?.image && (
+          <div className="relative w-full h-[220px] ">
+            <Image fill className="object-cover" src={post?.image} alt={post?.user?.name} />
+          </div>
+        )}
 
         <div className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 ">
           <svg
