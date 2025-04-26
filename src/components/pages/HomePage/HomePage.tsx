@@ -2,11 +2,14 @@
 import apiServiceCall from "@/lib/api/apiServiceCall";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Post } from "@/lib/types/types";
+import { Post, User } from "@/lib/types/types";
 import PostCard from "@/components/PostCard/PostCard";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
-const HomePage = ({ token }: { token: string }) => {
+import CreatePost from "@/components/CreatePost/CreatePost";
+
+
+const HomePage = ({ token, user }: { token: string, user: User }) => {
   const { ref, inView } = useInView();
   const [totalPage, setTotalPage] = useState<number | null>(null);
   const { data: pagination, isLoading: paginationLoading } = useQuery({
@@ -59,6 +62,7 @@ const HomePage = ({ token }: { token: string }) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto my-4">
+    <CreatePost user={user} />
         {isLoading ||
           (paginationLoading &&
             [...Array(6)].map((_, index) => (
