@@ -62,7 +62,7 @@ const HomePage = ({ token, user }: { token: string, user: User }) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto my-4">
-    <CreatePost user={user} />
+    <CreatePost user={user} token={token}/>
         {isLoading ||
           (paginationLoading &&
             [...Array(6)].map((_, index) => (
