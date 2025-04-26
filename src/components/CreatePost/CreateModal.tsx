@@ -103,12 +103,13 @@ const CreateModal = ({
         </svg>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
+      {errors.body && <span className="text-red-500 text-[14px]">{errors.body.message}</span>}
         <textarea
           placeholder={`What's on your mind, ${user?.name}?`}
-          {...register("body", { required: true })}
+          {...register("body", { required: "Body is required" })}
           className="flex items-start justify-start w-full h-[250px] resize-none outline-none border-none border-b-2 border-gray-300 bg-gray-100/[0.5] px-6 py-2"
         ></textarea>
-        {errors.body && <span>{errors.body.message}</span>}
+        
         <div className="my-2 flex items-center justify-between">
           <div className="w-[80px] h-[50px]  relative border border-emerald-700/[0.4] rounded-[3px] flex items-center justify-center">
             <input
