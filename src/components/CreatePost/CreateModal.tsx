@@ -1,11 +1,11 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "@/lib/types/types";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import apiServiceCall from "@/lib/api/apiServiceCall";
 import { toast } from "react-toastify";
-type PostFormData  = {
+type PostFormData = {
   body: string;
   image?: File | null;
 };
@@ -23,21 +23,18 @@ const CreateModal = ({
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<FormData>();
+  } = useForm<PostFormData>();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   console.log("getValues    ", getValues());
-  const onSubmit = (data: PostFormData ) => {
+  const onSubmit = (data: PostFormData) => {
     const formData = new FormData();
     formData.append("body", data.body);
     if (selectedFile) {
       formData.append("image", selectedFile);
     }
-    const postData: PostFormData = {
-      body: formData.get("body") as string,
-      image: selectedFile
-    };
-    mutate(postData);
+
+    mutate(formData);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,11 +55,11 @@ const CreateModal = ({
     };
   }, [previewUrl]);
   const { mutate } = useMutation({
-    mutationFn: (formData: PostFormData ) =>
+    mutationFn: (formData: FormData) =>
       apiServiceCall({
         endPoint: "posts",
         method: "POST",
-        body: formData,
+        body: Object.fromEntries(formData),
         headers: {
           "Content-Type": "multipart/form-data",
           token: token,
@@ -107,13 +104,17 @@ const CreateModal = ({
         </svg>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-      {errors.body && <span className="text-red-500 text-[14px]">{errors.body.message}</span>}
+        {errors.body && (
+          <span className="text-red-500 text-[14px]">
+            {errors.body.message}
+          </span>
+        )}
         <textarea
           placeholder={`What's on your mind, ${user?.name}?`}
           {...register("body", { required: "Body is required" })}
           className="flex items-start justify-start w-full h-[250px] resize-none outline-none border-none border-b-2 border-gray-300 bg-gray-100/[0.5] px-6 py-2"
         ></textarea>
-        
+
         <div className="my-2 flex items-center justify-between">
           <div className="w-[80px] h-[50px]  relative border border-emerald-700/[0.4] rounded-[3px] flex items-center justify-center">
             <input
