@@ -86,9 +86,9 @@ const AddComment = ({
       queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
       setEditComment(false);
     },
-    onError: (response: { data: { message: string } }) => {
+    onError: (response: { data: { error: string } }) => {
       console.log("response.....", response);
-      toast.error(response.data.message);
+      toast.error(response.data.error);
     },
   });
   useEffect(() => {

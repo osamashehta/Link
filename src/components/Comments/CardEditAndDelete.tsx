@@ -74,7 +74,7 @@ const CardEditAndDelete = ({
             </svg>
             <p>Edit</p>
           </div>
-          <div className="flex items-center justify-start gap-2">
+          {/* <div className="flex items-center justify-start gap-2" onClick={() => handleUpdate(commentId)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24px"
@@ -87,7 +87,7 @@ const CardEditAndDelete = ({
               />
             </svg>
             <p>Delete</p>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
