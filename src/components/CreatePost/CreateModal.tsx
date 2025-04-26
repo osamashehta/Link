@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { User } from "@/lib/types/types";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import apiServiceCall from "@/lib/api/apiServiceCall";
 import { toast } from "react-toastify";
-type FormData = {
+type PostFormData  = {
   body: string;
   image?: File | null;
 };
@@ -27,13 +27,17 @@ const CreateModal = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   console.log("getValues    ", getValues());
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: PostFormData ) => {
     const formData = new FormData();
     formData.append("body", data.body);
     if (selectedFile) {
       formData.append("image", selectedFile);
     }
-    mutate(formData);
+    const postData: PostFormData = {
+      body: formData.get("body") as string,
+      image: selectedFile
+    };
+    mutate(postData);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,15 +50,15 @@ const CreateModal = ({
   };
 
   // Clean up the object URL when component unmounts
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
       }
     };
   }, [previewUrl]);
-  const { mutate, isPending } = useMutation({
-    mutationFn: (formData: FormData) =>
+  const { mutate } = useMutation({
+    mutationFn: (formData: PostFormData ) =>
       apiServiceCall({
         endPoint: "posts",
         method: "POST",

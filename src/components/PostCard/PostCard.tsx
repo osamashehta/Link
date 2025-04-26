@@ -26,7 +26,7 @@ const PostCard = ({
         <div className="flex items-center justify-between w-full px-4">
           <div className="flex justify-start items-center gap-1">
             <Avatar>
-              <AvatarImage src={post?.image} alt={post?.user?.name} />
+              <AvatarImage src={post?.user?.photo} alt={post?.user?.name} />
               <AvatarFallback className="bg-slate-950 text-white  ">
                 {post?.user?.name.split(" ").map((name) => name[0])}
               </AvatarFallback>
