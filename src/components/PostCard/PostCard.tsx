@@ -9,7 +9,7 @@ import AddComment from "../Comments/AddComment";
 const PostCard = ({
   post,
   ref,
-  token
+  token,
 }: {
   post: Post;
   ref: ForwardedRef<HTMLDivElement>;
@@ -17,6 +17,7 @@ const PostCard = ({
 }) => {
   const createdAtAgo = useTimeAgo(post.createdAt);
   const [showComments, setShowComments] = useState(false);
+  const [editComment, setEditComment] = useState(false);
 
   return (
     <>
@@ -35,10 +36,7 @@ const PostCard = ({
         </div>
         <p className="text-start font-light px-4">{post?.body}</p>
 
-        <div
-          
-          className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 "
-        >
+        <div className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24px"
@@ -58,14 +56,31 @@ const PostCard = ({
                 {post.comments.length > 0 ? (
                   <>
                     {post.comments.map((comment) => (
-                      <Comments key={comment._id} comments={comment} />
+                      <Comments
+                        key={comment._id}
+                        commentId={comment._id}
+                        comments={comment}
+                        token={token}
+                      />
                     ))}
-                    <AddComment token={token} post={post._id} />
-
+                    <AddComment
+                      token={token}
+                      post={post._id}
+                      comments={post.comments}
+                      commentId=""
+                      setEditComment={setEditComment}
+                      editComment={editComment}
+                    />
                   </>
                 ) : (
-                  <AddComment token={token} post={post._id} />
-
+                  <AddComment
+                    token={token}
+                    post={post._id}
+                    comments={post.comments}
+                    commentId=""
+                    setEditComment={setEditComment}
+                    editComment={editComment}
+                  />
                 )}
               </div>
             </>

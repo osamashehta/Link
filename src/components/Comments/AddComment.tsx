@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiServiceCall from "@/lib/api/apiServiceCall";
 import { toast } from "react-toastify";
+import { TComments } from "@/lib/types/types";
 type TAddComment = {
   content: string;
   post: string;
 };
-const AddComment = ({ token, post }: { token: string; post: string }) => {
-  const { register, handleSubmit, watch, reset } = useForm<TAddComment>();
+const AddComment = ({
+  token,
+  post,
+  comments,
+  commentId,
+  setEditComment,
+  editComment,
+}: {
+  token: string;
+  post: string;
+  comments: TComments[];
+  commentId: string;
+  setEditComment: (editComment: boolean) => void;
+  editComment: boolean;
+}) => {
+  const { register, handleSubmit, watch, reset } = useForm<TAddComment>({
+    defaultValues: {
+      content:
+        comments.find((comment) => comment._id === commentId)?.content || "",
+    },
+  });
   const onSubmit = (data: TAddComment) => {
     const commentData = {
       content: data.content,
       post: post,
     };
-    mutate(commentData);
+    console.log("commentId.......", commentId);
+    console.log("commentData.......", commentData);
+    if (commentId) {
+      updateComment(data.content);
+    } else {
+      mutate(commentData);
+    }
   };
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
@@ -41,6 +67,39 @@ const AddComment = ({ token, post }: { token: string; post: string }) => {
       toast.error(response.data.error);
     },
   });
+
+  const { mutate: updateComment } = useMutation({
+    mutationFn: (commentData: string) =>
+      apiServiceCall({
+        endPoint: `comments/${commentId}`,
+        method: "PUT",
+        body: {
+          content: commentData,
+        },
+        headers: {
+          token: token,
+        },
+      }),
+    onSuccess: (response: { data: { message: string } }) => {
+      console.log("response.....", response);
+      toast.success(response.data.message);
+      queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
+      setEditComment(false);
+    },
+    onError: (response: { data: { message: string } }) => {
+      console.log("response.....", response);
+      toast.error(response.data.message);
+    },
+  });
+  useEffect(() => {
+    if (commentId) {
+      reset({
+        content:
+          comments.find((comment) => comment._id === commentId)?.content || "",
+      });
+    }
+  }, [reset, commentId, comments]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -55,7 +114,7 @@ const AddComment = ({ token, post }: { token: string; post: string }) => {
       />
       {watch("content") && (
         <Button type="submit" className="bg-blue-500 text-white cursor-pointer">
-          Comment
+          {editComment ? "Update" : "Comment"}
         </Button>
       )}
     </form>

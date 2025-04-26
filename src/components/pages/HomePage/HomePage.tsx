@@ -59,19 +59,20 @@ const HomePage = ({ token }: { token: string }) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto my-4">
-        {isLoading || paginationLoading &&
-          [...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-8 mt-4 w-full  "
-            >
-              <Skeleton className="h-14 w-14 rounded-full bg-white shadow" />
-              <div className="space-y-2">
-                <Skeleton className="h-6 w-[250px] bg-white shadow " />
-                <Skeleton className="h-6 w-[200px] bg-white shadow" />
+        {isLoading ||
+          (paginationLoading &&
+            [...Array(6)].map((_, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-8 mt-4 w-full  "
+              >
+                <Skeleton className="h-14 w-14 rounded-full bg-white shadow" />
+                <div className="space-y-2">
+                  <Skeleton className="h-6 w-[250px] bg-white shadow " />
+                  <Skeleton className="h-6 w-[200px] bg-white shadow" />
+                </div>
               </div>
-            </div>
-          ))}
+            )))}
 
         {data?.pages?.map((page) =>
           page.posts.map((post: Post) => (
