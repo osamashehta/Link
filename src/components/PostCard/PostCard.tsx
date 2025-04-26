@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ForwardedRef, useState } from "react";
 import Comments from "../Comments/Comments";
 import AddComment from "../Comments/AddComment";
+import Image from "next/image";
 
 const PostCard = ({
   post,
@@ -35,6 +36,9 @@ const PostCard = ({
           <p>{createdAtAgo}</p>
         </div>
         <p className="text-start font-light px-4">{post?.body}</p>
+        <div className="relative w-full h-[220px] ">
+          <Image fill className="object-cover" src={post?.image} alt={post?.user?.name} />
+        </div>
 
         <div className="w-full cursor-pointer flex flex-col items-center justify-center border border-slate-700/[0.4] rounded-[10px] py-1 px-[16px] mt-[-10px] bg-gray-100 ">
           <svg
