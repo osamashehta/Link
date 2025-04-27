@@ -3,11 +3,9 @@ import apiServiceCall from "@/lib/api/apiServiceCall";
 
 import { Post, User } from "@/lib/types/types";
 import PostCard from "@/components/PostCard/PostCard";
-import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProfileCard from "@/components/ProfileCard/ProfileCard";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfilePage = ({token,user}:{token:string,user:User}) => {
   
