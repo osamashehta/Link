@@ -1,3 +1,4 @@
+"use client"
 import { useTimeAgo } from "@/hooks/useTimeAgo";
 import { Post } from "@/lib/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +15,7 @@ const PostCard = ({
   token,
 }: {
   post: Post;
-  ref: ForwardedRef<HTMLDivElement>;
+  ref?: ForwardedRef<HTMLDivElement>;
   token: string;
 }) => {
   const createdAtAgo = useTimeAgo(post.createdAt);

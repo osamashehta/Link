@@ -7,9 +7,9 @@ import PostCard from "@/components/PostCard/PostCard";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
 import CreatePost from "@/components/CreatePost/CreatePost";
+import ProfileCard from "@/components/ProfileCard/ProfileCard";
 
-
-const HomePage = ({ token, user }: { token: string, user: User }) => {
+const HomePage = ({ token, user }: { token: string; user: User }) => {
   const { ref, inView } = useInView();
   const [totalPage, setTotalPage] = useState<number | null>(null);
   const { data: pagination, isLoading: paginationLoading } = useQuery({
@@ -60,9 +60,12 @@ const HomePage = ({ token, user }: { token: string, user: User }) => {
   }, [inView, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <>
-      <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto my-4">
-    <CreatePost user={user} token={token}/>
+    <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-[800px] w-[95%] mx-auto my-4">
+      <div className="w-[200px] h-[230px] mb-4">
+        <ProfileCard user={user} />
+      </div>
+      <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto ">
+        <CreatePost user={user} token={token} />
         {isLoading ||
           (paginationLoading &&
             [...Array(6)].map((_, index) => (
@@ -87,7 +90,7 @@ const HomePage = ({ token, user }: { token: string, user: User }) => {
         )}
         <div>{isFetchingNextPage && "Loading...."}</div>
       </div>
-    </>
+    </div>
   );
 };
 

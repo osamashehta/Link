@@ -1,15 +1,20 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import ProfileCard from "../ProfileCard/ProfileCard";
 type props = {
   name: string;
   photo: string;
   _id: string;
 };
 const Navbar = ({ user }: { user: props }) => {
+  const [isOpen,setIsOpen] = useState(false);
   return (
     <>
-      <div className="flex justify-between  item-center px-4 py-2 h-[80px] bg-white shadow-md shadow-slate-100/[0.8]">
+    <div className="bg-white ">
+
+      <div className="flex justify-between  item-center px-4 py-2 h-[80px] shadow-md shadow-slate-100/[0.8] w-[90%] mx-auto">
         <Link
           href="/"
           className="p-2 rounded-[8px] flex items-center "
@@ -42,7 +47,7 @@ const Navbar = ({ user }: { user: props }) => {
               height={36}
               className=" w-[36px] h-[36px] rounded-full"
             />
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center relative cursor-pointer" onClick={()=> setIsOpen(!isOpen)}>
               <p className="text-[12px] font-medium">Me</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +61,16 @@ const Navbar = ({ user }: { user: props }) => {
                 ></path>
               </svg>
             </div>
+{isOpen && (
+
+            <div className="w-[200px] h-[230px] absolute top-[96px] right-12">
+        <ProfileCard user={user} />
+      </div>
+)}
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 };

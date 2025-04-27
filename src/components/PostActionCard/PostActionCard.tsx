@@ -39,6 +39,7 @@ const PostActionCard = ({postId, token, setShowEditPost, showEditPost}: {postId:
     onSuccess: () => {
       toast.success("Post deleted successfully")
       queryClient.invalidateQueries({queryKey: ["posts"]})
+      queryClient.invalidateQueries({queryKey: ["myPosts"]})
     },
     onError: () => {
       toast.error("Error deleting post")
