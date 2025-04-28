@@ -26,7 +26,6 @@ const CreateModal = ({
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<PostFormData>({
     defaultValues: {
       body: post?.body || "",
