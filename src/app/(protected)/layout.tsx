@@ -10,9 +10,7 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value || "";
-console.log("token layout",token)
   if (!token) {
-    console.log("No token found layout",token);
     redirect("/login");
   }
 

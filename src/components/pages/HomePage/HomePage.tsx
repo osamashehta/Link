@@ -26,7 +26,6 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
   useEffect(() => {
     if (pagination) {
       setTotalPage(pagination?.data?.paginationInfo?.numberOfPages);
-      console.log("totalPage", totalPage);
     }
   }, [pagination, totalPage]);
 
@@ -53,8 +52,6 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
 
   useEffect(() => {
     if (inView && !isFetchingNextPage) {
-      console.log("in view", inView);
-
       fetchNextPage();
     }
   }, [inView, fetchNextPage, isFetchingNextPage]);
@@ -65,8 +62,8 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
         <ProfileCard user={user} />
       </div>
       <div className=" col-span-8 col-start-2 md:col-span-5 md:col-start-4 flex flex-col justify-start items-center gap-1  ">
-<CreatePost user={user} token={token} />
-        
+        <CreatePost user={user} token={token} />
+
         {isLoading ||
           (paginationLoading &&
             [...Array(6)].map((_, index) => (
@@ -84,7 +81,13 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
         {data?.pages?.map((page) =>
           page.posts.map((post: Post) => (
             <>
-              <PostCard token={token} key={post._id} post={post} user={user} ref={ref} />
+              <PostCard
+                token={token}
+                key={post._id}
+                post={post}
+                user={user}
+                ref={ref}
+              />
             </>
           ))
         )}

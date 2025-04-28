@@ -91,12 +91,14 @@ const LoginPage = () => {
               )}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="cursor-pointer">
+              Submit
+            </Button>
           </form>
         </Form>
         <Link
           href="/signup"
-          className=" my-3 text-slate-950 font-medium text-[18px] flex items-center justify-center gap-1"
+          className=" my-3 text-slate-950 font-medium text-[18px] flex items-center justify-center gap-1 "
         >
           <p>{"Don't have an account?"}</p>{" "}
           <svg

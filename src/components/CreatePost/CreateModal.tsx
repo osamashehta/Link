@@ -37,7 +37,6 @@ const CreateModal = ({
     post?.image || null
   );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  console.log("getValues    ", getValues());
   const onSubmit = (data: PostFormData) => {
     const formData = new FormData();
     formData.append("body", data.body);
@@ -45,11 +44,8 @@ const CreateModal = ({
       formData.append("image", selectedFile);
     }
     if (isEdit) {
-      console.log("isEdit", isEdit);
-      console.log("formData is edit", formData);
       editPost(formData);
     } else {
-      console.log("formData ", formData);
       mutate(formData);
     }
 
@@ -64,8 +60,6 @@ const CreateModal = ({
       setSelectedFile(file);
     }
   };
-  console.log("isEdit", isEdit);
-  console.log("getValues", getValues());
 
   // Clean up the object URL when component unmounts
   useEffect(() => {
@@ -86,13 +80,11 @@ const CreateModal = ({
           token: token,
         },
       }),
-    onSuccess: (data) => {
-      console.log("post created", data);
+    onSuccess: () => {
       toast.success("Post created successfully");
       setShowModal(false);
     },
-    onError: (error) => {
-      console.log("error creating post", error);
+    onError: () => {
       toast.error("Error creating post");
     },
   });

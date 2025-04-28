@@ -15,7 +15,6 @@ const Comments = ({
   token: string;
 }) => {
   const createdAtAgo = useTimeAgo(comments?.createdAt);
-  console.log("comments from comments", comments);
   const [editComment, setEditComment] = useState(false);
   return (
     <>

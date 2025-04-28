@@ -36,8 +36,7 @@ const AddComment = ({
       content: data.content,
       post: post,
     };
-    console.log("commentId.......", commentId);
-    console.log("commentData.......", commentData);
+
     if (commentId) {
       updateComment(data.content);
     } else {
@@ -57,13 +56,11 @@ const AddComment = ({
         },
       }),
     onSuccess: (response: { data: { message: string } }) => {
-      console.log("response.....", response);
       toast.success(response.data.message);
       queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
       reset();
     },
     onError: (response: { data: { error: string } }) => {
-      console.log("response.....", response);
       toast.error(response.data.error);
     },
   });
@@ -81,13 +78,11 @@ const AddComment = ({
         },
       }),
     onSuccess: (response: { data: { message: string } }) => {
-      console.log("response.....", response);
       toast.success(response.data.message);
       queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
       setEditComment(false);
     },
     onError: (response: { data: { error: string } }) => {
-      console.log("response.....", response);
       toast.error(response.data.error);
     },
   });

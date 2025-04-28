@@ -9,7 +9,6 @@ const CardEditAndDelete = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  console.log("commentId.......", commentId);
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
@@ -25,8 +24,7 @@ const CardEditAndDelete = ({
       document.removeEventListener("click", handleClick);
     };
   }, [isOpen]);
-  const handleUpdate = (id: string) => {
-    console.log("id from handleUpdate.......", id);
+  const handleUpdate = () => {
     setEditComment(true);
   };
 
@@ -59,7 +57,7 @@ const CardEditAndDelete = ({
         <div className="absolute top-8 right-1 shadow-md bg-white rounded-md p-2 flex flex-col gap-2">
           <div
             className="flex items-center justify-start gap-2"
-            onClick={() => handleUpdate(commentId)}
+            onClick={() => handleUpdate()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

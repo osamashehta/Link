@@ -41,7 +41,6 @@ export const useLogin = () => {
     onSuccess: async (data) => {
       toast.success(data?.data?.message);
 
-      console.log("data?.data?.token", data?.data?.token);
 
       await fetch("/api/auth/set-token", {
         method: "POST",
