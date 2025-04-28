@@ -16,7 +16,7 @@ export default async function RootLayout({
   if (token) {
     try {
       profileData = await fetchUserProfile();
-    } catch () {
+    } catch (error) {
       // fetch failed (invalid token maybe)
       redirect("/login");
     }
