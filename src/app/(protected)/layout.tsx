@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar/Navbar";
-import LoginPage from "@/components/pages/LoginPage/LoginPage";
+// import LoginPage from "@/components/pages/LoginPage/LoginPage";
 import { fetchUserProfile } from "@/lib/serverActions/serverActions";
 import { cookies } from "next/headers";
+import Page from "../(auth)/login/page";
 // import { redirect } from "next/navigation";
 
 export default async function RootLayout({
@@ -17,7 +18,7 @@ export default async function RootLayout({
   // }
 
   const profileData = await fetchUserProfile();
-if(!token) return <LoginPage/>
+if(!token) return <Page/>
   return (
     <>
       <Navbar user={profileData?.data?.user || ""} />
