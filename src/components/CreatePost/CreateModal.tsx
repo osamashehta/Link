@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { User } from "@/lib/types/types";
+import { Post, User } from "@/lib/types/types";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiServiceCall from "@/lib/api/apiServiceCall";
 import { toast } from "react-toastify";
 type PostFormData = {
@@ -13,18 +13,29 @@ const CreateModal = ({
   user,
   setShowModal,
   token,
+  post,
+  isEdit,
 }: {
-  user: User;
+  user?: User;
   setShowModal: (showModal: boolean) => void;
   token: string;
+  post?: Post;
+  isEdit?: boolean;
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<PostFormData>();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  } = useForm<PostFormData>({
+    defaultValues: {
+      body: post?.body || "",
+      image: null,
+    },
+  });
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    post?.image || null
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   console.log("getValues    ", getValues());
   const onSubmit = (data: PostFormData) => {
@@ -33,8 +44,16 @@ const CreateModal = ({
     if (selectedFile) {
       formData.append("image", selectedFile);
     }
+    if (isEdit) {
+      console.log("isEdit", isEdit);
+      console.log("formData is edit", formData);
+      editPost(formData);
+    } else {
+      console.log("formData ", formData);
+      mutate(formData);
+    }
 
-    mutate(formData);
+    // mutate(formData);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +64,8 @@ const CreateModal = ({
       setSelectedFile(file);
     }
   };
+  console.log("isEdit", isEdit);
+  console.log("getValues", getValues());
 
   // Clean up the object URL when component unmounts
   useEffect(() => {
@@ -76,12 +97,36 @@ const CreateModal = ({
     },
   });
 
+  const queryClient = useQueryClient();
+  const { mutate: editPost } = useMutation({
+    mutationFn: (formData: FormData) =>
+      apiServiceCall({
+        endPoint: `posts/${post?._id}`,
+        method: "PUT",
+        body: Object.fromEntries(formData),
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: token,
+        },
+      }),
+    onSuccess: () => {
+      toast.success("Post updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["myPosts"] });
+      queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
+      setShowModal(false);
+    },
+    onError: () => {
+      toast.error("Error updating post");
+    },
+  });
+
   return (
     <div className="w-full h-full flex flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
-            src={user?.photo}
+            src={user?.photo || ""}
             alt="user"
             width={60}
             height={60}

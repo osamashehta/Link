@@ -1,14 +1,17 @@
 import apiServiceCall from '@/lib/api/apiServiceCall';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Post, User } from '@/lib/types/types';
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 import ReportModal from '../ReportModal/ReportModal';
+import CreateModal from '../CreatePost/CreateModal';
 
-const PostActionCard = ({postId, token, setShowEditPost, showEditPost, isOwner}: {postId: string, token: string, setShowEditPost: (showEditPost: boolean) => void, showEditPost: boolean, isOwner: boolean}    ) => {
+const PostActionCard = ({post,  token, setShowEditPost, showEditPost, isOwner, user}: {post: Post,  token: string, setShowEditPost: (showEditPost: boolean) => void, showEditPost: boolean, isOwner: boolean, user: User}) => {
     // const [isOpen, setIsOpen] = useState(false);
     const [reportReason, setReportReason] = useState(false)
+    const [editPost, setEditPost] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null);
-  console.log("postId.......", postId);
+
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
@@ -42,11 +45,23 @@ const PostActionCard = ({postId, token, setShowEditPost, showEditPost, isOwner}:
       toast.success("Post deleted successfully")
       queryClient.invalidateQueries({queryKey: ["posts"]})
       queryClient.invalidateQueries({queryKey: ["myPosts"]})
+      queryClient.invalidateQueries({ queryKey: ["feedPosts"] });
+      setShowEditPost(false)
     },
     onError: () => {
       toast.error("Error deleting post")
     }
   })
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       
@@ -82,8 +97,8 @@ const PostActionCard = ({postId, token, setShowEditPost, showEditPost, isOwner}:
 {isOwner ? (
 
 <>
-<div
-                className="flex items-center justify-start gap-2"
+<div onClick={() => setEditPost(true)}
+                className="flex items-center justify-start gap-2 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +112,13 @@ const PostActionCard = ({postId, token, setShowEditPost, showEditPost, isOwner}:
                   />
                 </svg>
                 <p>Edit</p>
+                {editPost && (
+                  <div  className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[50dvw] mx-auto min-h-[80dvh] rounded-[10px] shadow-lg  bg-white flex justify-center items-center z-50">
+                  <CreateModal isEdit={true}  post={post} user={user} setShowModal={setShowEditPost} token={token}/>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-start gap-2 cursor-pointer" onClick={() => handleDelete(postId)}>
+              <div className="flex items-center justify-start gap-2 cursor-pointer" onClick={() => handleDelete(post._id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24px"

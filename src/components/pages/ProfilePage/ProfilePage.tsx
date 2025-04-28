@@ -58,7 +58,7 @@ const ProfilePage = ({token,user}:{token:string,user:User}) => {
 
     data?.posts?.map((post:Post) =>
         <>
-          <PostCard token={token} key={post._id} post={post}/>
+          <PostCard token={token} key={post._id} post={post} user={user}/>
         </>
     )
 ) : (

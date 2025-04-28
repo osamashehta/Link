@@ -65,6 +65,7 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
         <ProfileCard user={user} />
       </div>
       <div className=" col-span-8 col-start-2 md:col-span-5 md:col-start-4 flex flex-col justify-start items-center gap-1  ">
+<CreatePost user={user} token={token} />
         
         {isLoading ||
           (paginationLoading &&
@@ -80,7 +81,6 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
                 </div>
               </div>
             )))}
-<CreatePost user={user} token={token} />
         {data?.pages?.map((page) =>
           page.posts.map((post: Post) => (
             <>
