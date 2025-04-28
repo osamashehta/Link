@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const CardEditAndDelete = ({
-  commentId,
   setEditComment,
 }: {
   commentId: string;
