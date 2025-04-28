@@ -17,8 +17,8 @@ export default async function RootLayout({
   //   redirect("/login");
   // }
 
+  if(!token) return <Page/>
   const profileData = await fetchUserProfile();
-if(!token) return <Page/>
   return (
     <>
       <Navbar user={profileData?.data?.user || ""} />
