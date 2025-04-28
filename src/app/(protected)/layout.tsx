@@ -11,11 +11,19 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value || "";
 
-  if (!token) {
+  let profileData = null;
+
+  if (token) {
+    try {
+      profileData = await fetchUserProfile();
+    } catch () {
+      // fetch failed (invalid token maybe)
+      redirect("/login");
+    }
+  } else {
+    // no token at all
     redirect("/login");
   }
-
-  const profileData = await fetchUserProfile();
 
   return (
     <>

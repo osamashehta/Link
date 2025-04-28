@@ -47,7 +47,7 @@ const PostCard = ({
           {/* )} */}
           </div>
         </div>
-        <p className="text-start font-light px-4">{post?.body}</p>
+        <p className="text-start font-light px-4 break-all">{post?.body}</p>
         {post?.image && (
           <div className="relative w-full h-[220px] ">
             <Image fill className="object-cover" src={post?.image} alt={post?.user?.name} />
