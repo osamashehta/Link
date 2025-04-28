@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar/Navbar";
+import LoginPage from "@/components/pages/LoginPage/LoginPage";
 import { fetchUserProfile } from "@/lib/serverActions/serverActions";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 export default async function RootLayout({
   children,
@@ -11,21 +12,12 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value || "";
 
-  let profileData = null;
+  // if (!token) {
+  //   redirect("/login");
+  // }
 
-  if (token) {
-    try {
-      profileData = await fetchUserProfile();
-    } catch (error) {
-      // fetch failed (invalid token maybe)
-      console.log("error", error);
-      redirect("/login");
-    }
-  } else {
-    // no token at all
-    redirect("/login");
-  }
-
+  const profileData = await fetchUserProfile();
+if(!token) return <LoginPage/>
   return (
     <>
       <Navbar user={profileData?.data?.user || ""} />
