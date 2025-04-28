@@ -34,7 +34,7 @@ const ProfilePage = ({token,user}:{token:string,user:User}) => {
   console.log("data........",data);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-[800px] w-[95%] mx-auto my-4">
+    <div className="flex flex-col  justify-center items-center md:items-start max-w-[800px] w-[95%] mx-auto my-4">
     <div className="max-w-[450px] w-[95%] mx-auto h-[230px]">
       <ProfileCard user={user} profile={true}/>
     </div>

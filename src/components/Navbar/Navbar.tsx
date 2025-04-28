@@ -64,7 +64,7 @@ const Navbar = ({ user }: { user: props }) => {
 {isOpen && (
 
             <div className="w-[200px] h-[230px] absolute top-[96px] right-12">
-        <ProfileCard user={user} />
+        <ProfileCard user={user} nav={true}/>
       </div>
 )}
           </div>
