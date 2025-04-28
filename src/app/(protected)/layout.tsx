@@ -18,6 +18,7 @@ export default async function RootLayout({
       profileData = await fetchUserProfile();
     } catch (error) {
       // fetch failed (invalid token maybe)
+      console.log("error", error);
       redirect("/login");
     }
   } else {
