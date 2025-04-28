@@ -1,6 +1,6 @@
 "use client"
 import { useTimeAgo } from "@/hooks/useTimeAgo";
-import { Post } from "@/lib/types/types";
+import { Post, User } from "@/lib/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { ForwardedRef, useState } from "react";
@@ -11,17 +11,21 @@ import PostActionCard from "../PostActionCard/PostActionCard";
 
 const PostCard = ({
   post,
+  user,
   ref,
   token,
 }: {
   post: Post;
   ref?: ForwardedRef<HTMLDivElement>;
   token: string;
+  user: User;
 }) => {
   const createdAtAgo = useTimeAgo(post.createdAt);
   const [showComments, setShowComments] = useState(false);
   const [editComment, setEditComment] = useState(false);
   const [showEditPost, setShowEditPost] = useState(false);
+  const postUser = post.user._id;
+  const isOwner = postUser === user._id;
 
   return (
     <>
@@ -43,7 +47,7 @@ const PostCard = ({
           <div>
           <svg className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" onClick={() => setShowEditPost(!showEditPost)}   ><path fill="#808080" fill-rule="evenodd" d="M2.25 12a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0M5 10.75a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5M9.25 12a2.75 2.75 0 1 1 5.5 0a2.75 2.75 0 0 1-5.5 0M12 10.75a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5m7-1.5a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5M17.75 12a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0" clip-rule="evenodd"/></svg>
           {/* {showEditPost && ( */}
-            <PostActionCard postId={post._id} token={token} setShowEditPost={setShowEditPost} showEditPost={showEditPost}/>
+            <PostActionCard isOwner={isOwner} postId={post._id} token={token} setShowEditPost={setShowEditPost} showEditPost={showEditPost}/>
           {/* )} */}
           </div>
         </div>
