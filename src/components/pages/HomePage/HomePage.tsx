@@ -60,11 +60,11 @@ const HomePage = ({ token, user }: { token: string; user: User }) => {
   }, [inView, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-[800px] w-[95%] mx-auto my-4">
-      <div className="w-[200px] h-[230px] mb-4">
+    <div className="grid grid-cols-10 md:grid-cols-11  md:w-[90%] mx-auto my-4 gap-6">
+      <div className="col-span-8 col-start-2 md:col-span-3 md:col-start-1 h-[230px] mb-4">
         <ProfileCard user={user} />
       </div>
-      <div className="flex flex-col justify-center items-center gap-1 max-w-[450px] w-[95%] mx-auto ">
+      <div className=" col-span-8 col-start-2 md:col-span-5 md:col-start-4 flex flex-col justify-center items-center gap-1  ">
         <CreatePost user={user} token={token} />
         {isLoading ||
           (paginationLoading &&
